@@ -35,30 +35,9 @@ const topAreas = [
   { name: 'Basildon SS14', code: 'SS14' },
 ];
 
-const recentSearches = [
-  {
-    id: 1,
-    query: 'SS1, Under 75 years, <£200k',
-    date: '2 days ago',
-    results: 234,
-    filters: ['SS1', '<75 yrs', '<£200k'],
-  },
-  {
-    id: 2,
-    query: 'CO1, 60-70 years',
-    date: '1 week ago',
-    results: 87,
-    filters: ['CO1', '60-70 yrs'],
-  },
-];
+const recentSearches: { id: number; query: string; date: string; results: number; filters: string[] }[] = [];
 
-const areaHotspots = [
-  { name: 'Southend-on-Sea', codes: 'SS1, SS0, SS9', count: 1847 },
-  { name: 'Colchester', codes: 'CO1, CO2, CO3', count: 1432 },
-  { name: 'Chelmsford', codes: 'CM1, CM2', count: 982 },
-  { name: 'Basildon', codes: 'SS13, SS14, SS15', count: 1124 },
-  { name: 'Ipswich', codes: 'IP1, IP2', count: 876 },
-];
+const areaHotspots: { name: string; codes: string; count: number }[] = [];
 
 export default function LeaseOpportunities() {
   const [leaseFilter, setLeaseFilter] = useState('under60');
@@ -355,41 +334,49 @@ export default function LeaseOpportunities() {
               <h2 className="text-lg font-semibold">Recent Lease Searches</h2>
             </div>
             <div className="divide-y divide-black/5">
-              {recentSearches.map((search) => (
-                <div
-                  key={search.id}
-                  className="group flex items-center justify-between p-5 hover:bg-[#F8F7FF]"
-                >
-                  <div className="flex flex-1 items-start gap-4">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-black/5">
-                      <Search className="size-5 text-black/40" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="mb-1.5 text-[13px] font-medium">{search.query}</div>
-                      <div className="flex items-center gap-3 text-xs">
-                        <span className="text-black/50">{search.date}</span>
-                        <span className="rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-medium text-black/60">
-                          {search.results} results
-                        </span>
-                        <div className="flex gap-1.5">
-                          {search.filters.map((f) => (
-                            <span
-                              key={f}
-                              className="rounded-full bg-black/5 px-2 py-0.5 text-[10px] text-black/50"
-                            >
-                              {f}
-                            </span>
-                          ))}
+              {recentSearches.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 text-center">
+                  <Clock className="mb-3 size-10 text-black/15" />
+                  <div className="text-sm font-medium text-black/60">No recent searches</div>
+                  <p className="mt-1 text-xs text-black/40">Your search history will appear here</p>
+                </div>
+              ) : (
+                recentSearches.map((search) => (
+                  <div
+                    key={search.id}
+                    className="group flex items-center justify-between p-5 hover:bg-[#F8F7FF]"
+                  >
+                    <div className="flex flex-1 items-start gap-4">
+                      <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-black/5">
+                        <Search className="size-5 text-black/40" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="mb-1.5 text-[13px] font-medium">{search.query}</div>
+                        <div className="flex items-center gap-3 text-xs">
+                          <span className="text-black/50">{search.date}</span>
+                          <span className="rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-medium text-black/60">
+                            {search.results} results
+                          </span>
+                          <div className="flex gap-1.5">
+                            {search.filters.map((f) => (
+                              <span
+                                key={f}
+                                className="rounded-full bg-black/5 px-2 py-0.5 text-[10px] text-black/50"
+                              >
+                                {f}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <button className="flex h-8 items-center gap-2 rounded-full bg-black px-3 text-xs font-medium text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100">
+                      <Play className="size-3" />
+                      Run
+                    </button>
                   </div>
-                  <button className="flex h-8 items-center gap-2 rounded-full bg-black px-3 text-xs font-medium text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100">
-                    <Play className="size-3" />
-                    Run
-                  </button>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </section>
@@ -410,7 +397,7 @@ export default function LeaseOpportunities() {
                   <div className="mb-0.5 text-[10px] font-semibold uppercase tracking-wider text-black/40">
                     Short lease flats in UK
                   </div>
-                  <div className="mb-0.5 text-2xl font-semibold">847,000</div>
+                  <div className="mb-0.5 text-2xl font-semibold">—</div>
                   <div className="text-xs text-black/50">Properties with &lt;80 years remaining</div>
                 </div>
               </div>
@@ -422,7 +409,7 @@ export default function LeaseOpportunities() {
                   <div className="mb-0.5 text-[10px] font-semibold uppercase tracking-wider text-black/40">
                     Average profit potential
                   </div>
-                  <div className="mb-0.5 text-2xl font-semibold">£32,000</div>
+                  <div className="mb-0.5 text-2xl font-semibold">—</div>
                   <div className="text-xs text-black/50">Based on 60-75 year leases</div>
                 </div>
               </div>
@@ -509,21 +496,25 @@ export default function LeaseOpportunities() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-5 gap-3">
-                {areaHotspots.map((area) => (
-                  <div
-                    key={area.name}
-                    className="cursor-pointer rounded-xl border border-black/10 p-4 transition-colors hover:border-black/20"
-                  >
-                    <div className="mb-1 text-sm font-medium">{area.name}</div>
-                    <div className="mb-2 text-xs text-black/50">{area.codes}</div>
-                    <div className="flex items-center gap-1.5 text-xs text-black/60">
-                      <Building className="size-3" />
-                      <span>{area.count.toLocaleString()} properties</span>
+              {areaHotspots.length === 0 ? (
+                <div className="py-6 text-center text-sm text-black/40">Area hotspot data coming soon</div>
+              ) : (
+                <div className="grid grid-cols-5 gap-3">
+                  {areaHotspots.map((area) => (
+                    <div
+                      key={area.name}
+                      className="cursor-pointer rounded-xl border border-black/10 p-4 transition-colors hover:border-black/20"
+                    >
+                      <div className="mb-1 text-sm font-medium">{area.name}</div>
+                      <div className="mb-2 text-xs text-black/50">{area.codes}</div>
+                      <div className="flex items-center gap-1.5 text-xs text-black/60">
+                        <Building className="size-3" />
+                        <span>{area.count.toLocaleString()} properties</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>

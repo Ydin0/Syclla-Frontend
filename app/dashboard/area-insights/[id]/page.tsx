@@ -30,20 +30,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { fetchAreaDetail, type PostcodeDistrict } from '@/lib/api/areas';
 
-// Mock data for the area detail page
-const mockAreaData = {
-  code: 'SS1',
-  name: 'Southend-on-Sea',
-  region: 'Essex, East of England',
-  hmoScore: 81,
-  avgPrice: 265000,
-  avgPricePerSqm: 2450,
-  avgRoomRent: 548,
-  estYield: 11.8,
-  roomDemand: 'High',
-  roomDemandRatio: 2.1,
-  propertiesInArea: 3847,
-};
 
 const scoreBreakdown = [
   {
@@ -192,15 +178,14 @@ export default function AreaDetailPage() {
     }
   }, [areaCode]);
 
-  // Use mock data for display, with real data when available
   const displayData = {
-    code: areaData?.code || mockAreaData.code,
-    name: areaData?.post_town || areaData?.region || areaData?.name || mockAreaData.name,
-    region: areaData?.region || mockAreaData.region,
-    hmoScore: areaData?.hmo_score || mockAreaData.hmoScore,
-    avgPrice: areaData?.average_price || mockAreaData.avgPrice,
-    avgRent: areaData?.average_rent || mockAreaData.avgRoomRent,
-    avgYield: areaData?.average_yield || mockAreaData.estYield,
+    code: areaData?.code || areaCode,
+    name: areaData?.post_town || areaData?.region || areaData?.name || areaCode,
+    region: areaData?.region || '—',
+    hmoScore: areaData?.hmo_score ?? 0,
+    avgPrice: areaData?.average_price ?? null,
+    avgRent: areaData?.average_rent ?? null,
+    avgYield: areaData?.average_yield ?? null,
     demandScore: areaData?.demand_score ?? 50,
     transportScore: areaData?.transport_score ?? 0,
     hasArticle4: areaData?.has_article_4 ?? false,
@@ -290,20 +275,20 @@ export default function AreaDetailPage() {
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Avg Property Price</div>
                   <div className="text-2xl font-semibold">
-                    £{displayData.avgPrice?.toLocaleString()}
+                    {displayData.avgPrice ? `£${displayData.avgPrice.toLocaleString()}` : '—'}
                   </div>
                 </div>
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Avg Price/sqm</div>
-                  <div className="text-2xl font-semibold">£{mockAreaData.avgPricePerSqm.toLocaleString()}</div>
+                  <div className="text-2xl font-semibold">—</div>
                 </div>
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Avg Room Rent</div>
-                  <div className="text-2xl font-semibold">£{displayData.avgRent}/mo</div>
+                  <div className="text-2xl font-semibold">{displayData.avgRent ? `£${displayData.avgRent}/mo` : '—'}</div>
                 </div>
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Est. HMO Yield</div>
-                  <div className="text-2xl font-semibold">{displayData.avgYield}%</div>
+                  <div className="text-2xl font-semibold">{displayData.avgYield ? `${displayData.avgYield}%` : '—'}</div>
                 </div>
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Room Demand</div>
@@ -311,7 +296,7 @@ export default function AreaDetailPage() {
                 </div>
                 <div className="rounded-xl border border-black/10 p-4">
                   <div className="mb-1 text-xs text-black/60">Properties in Area</div>
-                  <div className="text-2xl font-semibold">{mockAreaData.propertiesInArea.toLocaleString()}</div>
+                  <div className="text-2xl font-semibold">—</div>
                 </div>
               </div>
             </div>

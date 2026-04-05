@@ -24,13 +24,7 @@ import {
 import { DashboardHeader, DashboardFooter } from '@/components/layout';
 import { Card, Button, Input } from '@/components/ui';
 
-const recentAnalyses = [
-  { id: 1, address: '47 Southchurch Avenue', postcode: 'SS1 2RB', area: 'Southend-on-Sea', type: 'HMO', date: '23 Jan 2025', score: 74 },
-  { id: 2, address: '12 Marine Parade', postcode: 'SS1 2EY', area: 'Southend-on-Sea', type: 'HMO', date: '20 Jan 2025', score: 68 },
-  { id: 3, address: '89 Victoria Avenue', postcode: 'SS2 6DH', area: 'Southend-on-Sea', type: 'HMO', date: '18 Jan 2025', score: 82 },
-  { id: 4, address: '34 Leigh Road', postcode: 'SS9 1BU', area: 'Leigh-on-Sea', type: 'HMO', date: '15 Jan 2025', score: 71 },
-  { id: 5, address: '156 London Road', postcode: 'SS1 1PG', area: 'Southend-on-Sea', type: 'HMO', date: '12 Jan 2025', score: 65 },
-];
+const recentAnalyses: { id: number; address: string; postcode: string; area: string; type: string; date: string; score: number }[] = [];
 
 const scorecardTypes = [
   {
@@ -338,34 +332,44 @@ export default function ScorecardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
-                {recentAnalyses.map((analysis) => (
-                  <tr key={analysis.id} className="transition-colors hover:bg-[#F8F7FF]">
-                    <td className="p-4">
-                      <div className="text-[13px] font-medium">{analysis.address}</div>
-                      <div className="text-[11px] text-black/50">
-                        {analysis.postcode}, {analysis.area}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
-                        <Users className="size-3" />
-                        {analysis.type}
-                      </span>
-                    </td>
-                    <td className="p-4 text-[13px] text-black/60">{analysis.date}</td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-1">
-                        <span className="text-lg font-medium">{analysis.score}</span>
-                        <span className="text-xs text-black/50">/100</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-right">
-                      <Button variant="secondary" size="sm">
-                        View Report
-                      </Button>
+                {recentAnalyses.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="p-12 text-center">
+                      <FileText className="mx-auto mb-3 size-10 text-black/15" />
+                      <div className="text-sm font-medium text-black/60">No analyses yet</div>
+                      <p className="mt-1 text-xs text-black/40">Generate your first HMO scorecard above to see it here</p>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  recentAnalyses.map((analysis) => (
+                    <tr key={analysis.id} className="transition-colors hover:bg-[#F8F7FF]">
+                      <td className="p-4">
+                        <div className="text-[13px] font-medium">{analysis.address}</div>
+                        <div className="text-[11px] text-black/50">
+                          {analysis.postcode}, {analysis.area}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <span className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
+                          <Users className="size-3" />
+                          {analysis.type}
+                        </span>
+                      </td>
+                      <td className="p-4 text-[13px] text-black/60">{analysis.date}</td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-1">
+                          <span className="text-lg font-medium">{analysis.score}</span>
+                          <span className="text-xs text-black/50">/100</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-right">
+                        <Button variant="secondary" size="sm">
+                          View Report
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </Card>
