@@ -157,7 +157,7 @@ export function AreaDetailSidebar({ areaCode, onClose }: AreaDetailSidebarProps)
                 <Train className="size-3" />
                 Transport
               </div>
-              <div className="mt-1 text-lg font-semibold">{area.transport_score}/10</div>
+              <div className="mt-1 text-lg font-semibold">{area.transport_score}/100</div>
             </div>
           </div>
 

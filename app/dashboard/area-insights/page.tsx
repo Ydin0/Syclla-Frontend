@@ -230,7 +230,7 @@ export default function AreaInsights() {
                       </td>
                       <td className="p-3 text-right text-[15px] font-medium">{a.yield}%</td>
                       <td className="p-3 text-center text-[15px] font-medium">{a.demand}</td>
-                      <td className="p-3 text-center text-[15px] font-medium">{a.transport}/10</td>
+                      <td className="p-3 text-center text-[15px] font-medium">{a.transport}/100</td>
                       <td className="p-3">
                         <div className="flex items-center justify-end gap-2">
                           <div className="h-1.5 w-16 overflow-hidden rounded-full bg-black/10">

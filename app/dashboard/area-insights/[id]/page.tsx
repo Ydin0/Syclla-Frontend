@@ -202,7 +202,7 @@ export default function AreaDetailPage() {
     avgRent: areaData?.average_rent || mockAreaData.avgRoomRent,
     avgYield: areaData?.average_yield || mockAreaData.estYield,
     demandScore: areaData?.demand_score ?? 50,
-    transportScore: areaData?.transport_score || 8,
+    transportScore: areaData?.transport_score ?? 0,
     hasArticle4: areaData?.has_article_4 ?? false,
   };
 
