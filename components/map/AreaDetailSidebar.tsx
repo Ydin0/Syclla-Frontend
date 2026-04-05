@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { X, MapPin, TrendingUp, Home, Users, Train, AlertTriangle, GraduationCap } from 'lucide-react';
 import { fetchAreaDetail, type PostcodeDistrict } from '@/lib/api/areas';
 
@@ -238,9 +239,9 @@ export function AreaDetailSidebar({ areaCode, onClose }: AreaDetailSidebarProps)
 
           {/* Actions */}
           <div className="space-y-2">
-            <button className="w-full rounded-full bg-black py-2.5 text-sm font-medium text-white hover:bg-black/80">
+            <Link href={`/dashboard/area-insights/${area.code}`} className="block w-full rounded-full bg-black py-2.5 text-center text-sm font-medium text-white hover:bg-black/80">
               View Full Analysis
-            </button>
+            </Link>
             <button className="w-full rounded-full border border-black/10 py-2.5 text-sm font-medium hover:bg-black/5">
               Add to Watchlist
             </button>

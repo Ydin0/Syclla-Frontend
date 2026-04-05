@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Search, Filter, Plus, ChevronRight, ChevronLeft, Download, Trophy, TrendingUp, AlertTriangle, ArrowRight, Bookmark, BarChart3, LineChart } from 'lucide-react';
 import { DashboardHeader } from '@/components/layout';
 import { HMOHeatmap, HeatmapLegend, AreaDetailSidebar } from '@/components/map';
@@ -20,6 +21,7 @@ const MAP_VIEW_OPTIONS: { label: string; value: HeatmapMetric }[] = [
 ];
 
 export default function AreaInsights() {
+  const router = useRouter();
   const [selected, setSelected] = useState<string[]>([]);
   const [mapMetric, setMapMetric] = useState<HeatmapMetric>('hmo_score');
   const [article4Filter, setArticle4Filter] = useState(false);
@@ -213,7 +215,7 @@ export default function AreaInsights() {
                   </tr>
                 ) : (
                   areas.map(a => (
-                    <tr key={a.code} className="group cursor-pointer transition-colors hover:bg-[#F8F7FF]">
+                    <tr key={a.code} onClick={() => router.push(`/dashboard/area-insights/${a.code}`)} className="group cursor-pointer transition-colors hover:bg-[#F8F7FF]">
                       <td className="p-3"><input type="checkbox" checked={selected.includes(a.code)} onChange={() => toggle(a.code)} className="size-4 rounded" /></td>
                       <td className="p-3"><div className={`flex size-7 items-center justify-center rounded text-xs font-medium text-white ${getRankBg(a.rank)}`}>{a.rank}</div></td>
                       <td className="p-3">

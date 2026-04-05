@@ -168,7 +168,7 @@ export default function Dashboard() {
                 </thead>
                 <tbody className="divide-y divide-black/5">
                   {topAreas.map((area) => (
-                    <tr key={area.code} className="transition-colors hover:bg-[#F8F7FF]">
+                    <tr key={area.code} onClick={() => window.location.href = `/dashboard/area-insights/${area.code}`} className="cursor-pointer transition-colors hover:bg-[#F8F7FF]">
                       <td className="p-3">
                         <div className={`flex size-8 items-center justify-center text-sm font-medium text-white ${getRankBg(area.rank)}`}>
                           {area.rank}
